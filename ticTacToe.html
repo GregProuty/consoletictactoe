@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  </head>
+  <body>
+  <h3>TIC TAC TOE in the console!</h3>
+  <p>Press CMD + ALT + J to open the console</p>
+  <p>To make a move type updateBoardState(X-VALUE, Y-VALUE)</p>
+
+  </body>
+  <script>
+	var boardState = 
+	[[' ', ' ', ' '],
+	 [' ', ' ', ' '],
+	 [' ', ' ', ' ']];
+	var turn = 'x' 
+
+	function updateBoardState(y, x) {
+		boardState[x][y] = turn;
+		console.clear()
+		if(detectWin(boardState, turn)) {
+			console.log(turn + ' wins!')
+		} else {
+			console.log(renderTTT(boardState))
+			turn === 'x' ? turn = 'o' : turn = 'x'
+			console.log('It is player ' + turn + ' turn')
+		}
+	}
+	// updateBoardState(0,0,'x')
+	// updateBoardState(1,1,'x')
+	function renderTTT(boardState) {
+		var horizontalLine = '--+--+--\n';
+		var board = '';
+		var currentBoardState = Array.from(boardState)
+		var line;
+		var xVal = 0;
+		var yVal = 0;
+		for(var i = 1; i < 6; i++) {
+			xVal = 0;
+			line = '';
+			if(i % 2 !== 0) {
+				for(var j = 0; j < 8; j++) {
+					if(j === 2 || j === 5) {
+						line += '|'
+					} else if (j === 1 || j === 4|| j === 7) {
+						line += currentBoardState[yVal][xVal];
+						xVal++
+					} else {
+						line += ' '
+					}
+				}
+				board += (line + '\n');
+				yVal++
+				// console.log(xVal, yVal, boardState)
+			}	else {
+				board += horizontalLine;
+			}
+		}
+		return board
+	}
+	function detectWin(boardState, turn){
+		var b = boardState
+		//(y,x)
+		if(b[0][0] === turn && b[0][1] === turn && b[0][2] === turn) { //top row
+			return true;
+		} else if (b[1][0] === turn && b[1][1] === turn && b[1][2] === turn) { //middle row
+			return true;
+		} else if (b[2][0] === turn && b[2][1] === turn && b[2][2] === turn) { //bottom row
+			return true;
+		} else if (b[0][0] === turn && b[1][0] === turn && b[2][0] === turn) { //left column
+			return true;
+		} else if (b[0][1] === turn && b[1][1] === turn && b[2][1] === turn) { // middle column
+			return true;
+		} else if (b[0][2] === turn && b[1][2] === turn && b[2][2] === turn) { // right column
+			return true;
+		} else if (b[0][0] === turn && b[1][1] === turn && b[2][2] === turn) { // right diagonal
+			return true;
+		} else if (b[2][2] === turn && b[1][1] === turn && b[2][0] === turn) { // left diagonal
+			return true;
+		} else {
+			return false;
+		}
+	}
+	console.log(renderTTT(boardState))
+	console.log('It is player ' + turn + ' turn')
+  </script>
+</html>
+
+
+
+
